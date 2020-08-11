@@ -1,0 +1,128 @@
+@firebaseDbUrl = https://fizuhulive-ba27c.firebaseio.com
+
+//Lekérünk valamit
+GET {{firebaseDbUrl}}/.json
+Content-Type: application/json
+
+
+###
+//Küldünk egy adott bejegyzést (hozzáfűzi)
+POST {{firebaseDbUrl}}/alma.json
+Content-Type: application/json
+
+{
+    "magok": 5,
+    "szeretem": "igen"
+}
+
+###
+//Egy adott bejegyzés lekérdezése
+@id = -MEDfBds-A6MqwGAh-51
+GET {{firebaseDbUrl}}/alma/{{id}}/.json
+
+###
+//Felülírjuk az adott bejegyzést
+PUT {{firebaseDbUrl}}/alma/{{id}}/.json
+Content-Type: application/json
+
+{
+    "akármi": true,
+    "valami": 5
+}
+
+###
+//Egy adott kulcs értékét lecserélem, vagy ha nincs ilyen,
+//akkor hozzárakja
+PATCH {{firebaseDbUrl}}/alma/{{id}}/.json
+Content-Type: application/json
+
+{
+    "mégvalami": "béla"
+}
+
+###
+//Törlés: például az előbb megadott kulcs érték párt
+DELETE {{firebaseDbUrl}}/alma/{{id}}/mégvalami.json
+Content-Type: application/json
+
+###
+// postoljuk a db.json fájlunkat
+POST {{firebaseDbUrl}}/blogposts.json
+Content-Type: application/json
+
+{
+    "id": 1,
+    "title": "Első bejegyzés",
+    "date": "2018-05-09",
+    "imageSrc":
+        "https://i0.wp.com/www.bluehost.com/blog/wp-content/uploads/2017/12/blog_blog.jpg?resize=350%2C200&ssl=1",
+    "lead":
+        "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Modi doloribus, earum, eum aliquam porro repellendus fugiat.",
+    "category": "Általános"
+}
+
+
+###
+
+@postId = -MEEMXIhECdAAedM8q78
+PATCH {{firebaseDbUrl}}/blogposts/{{postId}}.json
+Content-Type: application/json
+
+{
+    "id": "{{postId}}"
+}
+
+
+###
+//Firebase autentikáció
+@apiKey = AIzaSyAnXuYXsIii0iObuoiLi9ni8iCk95WuWx0
+
+//User létrehozás
+@signUpUrl = https://identitytoolkit.googleapis.com/v1/accounts:signUp
+
+//User belépés
+@signInUrl = https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword
+
+//User létrehozás
+POST {{signUpUrl}}?key={{apiKey}}
+Content-Type: application/json
+
+{
+    "email": "c@c.hu",
+    "password": "c123456",
+    "returnSecureToken": true
+}
+
+###
+//Ezt kivettük a válaszból:
+@idToken = eyJhbGciOiJSUzI1NiIsImtpZCI6ImFmMDg2ZmE4Y2Q5NDFlMDY3ZTc3NzNkYmIwNDcxMjAxMTBlMDA1NGEiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vZml6dWh1bGl2ZS1iYTI3YyIsImF1ZCI6ImZpenVodWxpdmUtYmEyN2MiLCJhdXRoX3RpbWUiOjE1OTY5ODEyODYsInVzZXJfaWQiOiJFMjBMN0U2WU0xZUpSaU1ZZllpY3d0S1R0anUyIiwic3ViIjoiRTIwTDdFNllNMWVKUmlNWWZZaWN3dEtUdGp1MiIsImlhdCI6MTU5Njk4MTI4NiwiZXhwIjoxNTk2OTg0ODg2LCJlbWFpbCI6ImFAYS5odSIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwiZmlyZWJhc2UiOnsiaWRlbnRpdGllcyI6eyJlbWFpbCI6WyJhQGEuaHUiXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.MC_L3V1jiO6_HbXVRXbmMEMysAtc52JSgqUt6Axh66iO5Zhuy6HKDN9EABvfsHQDOwhwGU1tPLXWxxraXWgGhV5swPP0RE_im3Hw8tf0HcYiqWjK-C1o98wtTrtv6wrJzN9gsCny0hJZdny8-Tky2FX49CjsfOmjwYO2RdzHQsGyIzr1SvIdso4qgFsxbzVUgbg6NaZzwYtCCWDjlf0mqoewMqowyNb6LXprB1HTA4di8BztcQn3TvjU0KKcT6d_c23afcPueOiVgmEnOGE3TqfIP_W_YkUJJRHqnYZUq8Y75qF7jRuVAS1PQW9wU5uUbzofq_MaZQtKf3UUWPCa0g
+
+###
+//User belépés
+POST {{signInUrl}}?key={{apiKey}}
+Content-Type: application/json
+
+{
+    "email": "a@a.hu",
+    "password": "123456",
+    "returnSecureToken": true
+}
+
+//A válasz idToken-je ugyanaz, mint amikor létrehoztuk
+//De 1 óra múlva lejár
+//Frissíteni a 
+//Frissíteni a refreshToken segítségével lehet.
+
+###
+
+//Az adatbázis tartalmának lekérése bejelentkezett user-el
+//curl "https://<DATABASE_NAME>.firebaseio.com/users/ada/name.json?auth=<ID_TOKEN>"
+//minden adat
+GET {{firebaseDbUrl}}/.json?auth={{idToken}}
+###
+//Csak a blogposts
+GET {{firebaseDbUrl}}/blogposts.json?auth={{idToken}}
+
+###
+//lekérés autentikáció nélkül
+GET {{firebaseDbUrl}}/.json

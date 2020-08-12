@@ -9,6 +9,8 @@ const apiKey = "AIzaSyAnXuYXsIii0iObuoiLi9ni8iCk95WuWx0";
 const signInUrl = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${apiKey}`
 const signUpUrl = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${apiKey}`
 
+import store from './store';
+
 //Ezeket a függvényeket lehet kívülről importálni a fájlból
 export default {
 	Auth({

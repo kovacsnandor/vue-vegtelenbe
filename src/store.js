@@ -1,8 +1,6 @@
-import DataService from './DataService';
+import DataService from "./DataService";
 
-//Ez egy objektum, ami kívülről is látható
-export let store = {
-    //Belső állapot
+let store = {
     state: {
         //Ez azért kell, mert ezen keresztül
         //globálisan tudunk kommunikálni
@@ -19,15 +17,17 @@ export let store = {
     },
     signInAction(credentialsPayload) {
         return this.authAction({
-            email: credentialsPayload.email,
-            password: credentialsPayload.password,
+            // email: credentialsPayload.email,
+            // password: credentialsPayload.password,
+            ...credentialsPayload,
             isSignUp: false
         })
     },
     signUpAction(credentialsPayload) {
         return this.authAction({
-            email: credentialsPayload.email,
-            password: credentialsPayload.password,
+            // email: credentialsPayload.email,
+            // password: credentialsPayload.password,
+            ...credentialsPayload,
             isSignUp: true
         })
     },
@@ -37,12 +37,15 @@ export let store = {
         //Letároljuk az új felhasználó adatait
 
     },
-    //Milyen módon lehet változtatni az ő belső állapotát
     //Amikor létrejön egy user,
     //evvel tárolom le a szerver válaszát
     //Valójában ez a default userem, aki éppen be van jelentkezve
     setUserMutation(userPayload) {
         console.log('userPayload', userPayload);
-        this.user = Object.assign({}, userPayload);
+        this.state.user = Object.assign({}, userPayload);
     }
+
 };
+
+//innentől kívülről látható a store objektum
+export default store;

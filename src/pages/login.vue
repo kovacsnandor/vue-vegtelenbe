@@ -61,6 +61,8 @@
 </template>
 
 <script>
+import store from '../store';
+
 export default {
   name: "login",
   data() {
@@ -69,9 +71,13 @@ export default {
       password: "",
     };
   },
+//   mounted() {
+//       console.log(store);
+//       debugger;
+//   },
   methods: {
     login() {
-      this.$root
+      store
         .signInAction({
           email: this.email,
           password: this.password,

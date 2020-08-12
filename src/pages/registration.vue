@@ -81,7 +81,6 @@
 </template>
 
 <script>
-import store from '../store';
 
 export default {
   name: "registration",
@@ -98,8 +97,7 @@ export default {
       if (this.password != this.password2) {
         this.alerts.push("A két jelszó egyezik");
       }
-      store
-        .signUpAction({
+      this.$store.dispatch("signUpAction",{
           email: this.email,
           password: this.password,
         })

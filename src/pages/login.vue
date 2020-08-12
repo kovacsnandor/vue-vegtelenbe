@@ -61,7 +61,6 @@
 </template>
 
 <script>
-import store from '../store';
 
 export default {
   name: "login",
@@ -77,8 +76,8 @@ export default {
 //   },
   methods: {
     login() {
-      store
-        .signInAction({
+      this.$store.dispatch(
+        "signInAction", {
           email: this.email,
           password: this.password,
         })

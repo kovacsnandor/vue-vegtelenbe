@@ -3,12 +3,11 @@
 </template>
 
 <script>
-import store from '../store';
 export default {
     name: "profil",
     computed: {
         user(){
-            return store.state.user || {};
+            return this.$store.state.user || {};
         }
     }
 }

@@ -18,7 +18,7 @@
             <div class="card-deck my-5">
               <div class="row">
                 <!-- cards -->
-                <BlogPostCard v-for="post in filteredPostCollection" :post="post" :key="post.id"></BlogPostCard>
+                <BlogPostCard v-for="post in postCollection" :post="post" :key="post.id"></BlogPostCard>
               </div>
             </div>
 
@@ -45,7 +45,6 @@
         </main>
 
         <aside id="aside" class="col-12 col-md-3 mt-5">
-
           <!-- Search -->
           <form class="form-inline">
             <input
@@ -83,6 +82,7 @@
 import DataService from "../DataService";
 import BlogPostCard from "../components/BlogPostCard.vue";
 import BlogPostCategories from "../components/BlogPostCategories.vue";
+import { TYPES } from '../store';
 
 export default {
   components: {
@@ -91,28 +91,32 @@ export default {
   },
   data() {
     return {
-      postCollection: [],
-      filters: {},
+      // postCollection: [],
+      filters: {}
     };
   },
   created() {
-    DataService.GetPosts().then((posts) => {
-      this.postCollection = posts;
-    });
+		if(this.$store.getters.isLoggedIn){
+			//azért kell return, mert meg kell hogy várja a then-t
+			return this.$store.dispatch(TYPES.actions.loadPosts);
+		}else{
+			//Ha nem vagyunk belépve, akkor menjen a login oldalra
+			this.$router.push({name: "login"});
+		}
   },
   computed: {
+		postCollection(){
+			return this.$store.state.posts;
+		},
     filteredPostCollection() {
-		
-
-			//Ha nincs ilyen, akkor nem szűrünk, tehát visszaadjuk az öszeset
+      //Ha nincs ilyen, akkor nem szűrünk, tehát visszaadjuk az öszeset
       if (!this.$route.params.categoryName) {
         return this.postCollection;
       }
-			
-			return this.postCollection.filter(post => {
-				return post.category == this.$route.params.categoryName;
-			});
-      
+
+      return this.postCollection.filter((post) => {
+        return post.category == this.$route.params.categoryName;
+      });
     },
   },
 

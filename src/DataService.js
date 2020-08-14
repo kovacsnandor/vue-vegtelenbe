@@ -5,45 +5,9 @@ export const BACKEND_URL = 'http://localhost:3000';
 // export const FIREBASE_URL = 'https://fizuhu-56a0c.firebaseio.com/';
 export const FIREBASE_URL = 'https://fizuhulive-ba27c.firebaseio.com/';
 
-const apiKey = "AIzaSyAnXuYXsIii0iObuoiLi9ni8iCk95WuWx0";
-const signInUrl = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${apiKey}`
-const signUpUrl = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${apiKey}`
-
-import store from './store';
 
 //Ezeket a függvényeket lehet kívülről importálni a fájlból
 export default {
-	Auth({
-		email,
-		password,
-		isSignUp
-	}) {
-		return Axios.post(
-				isSignUp ? signUpUrl : signInUrl, {
-					"email": email,
-					"password": password,
-					"returnSecureToken": true
-				})
-			.then(r => r.data)
-			.then(r => {
-				console.log("loginapi:", r);
-				return r;
-			})
-			.catch(err => {
-				console.warn("server hiba:", err);
-				//A promisz láncolat végi catch(...) kapja meg
-				//az ide rekott paramétert
-				return Promise.reject(err.response.data.error.message);
-			})
-	},
-
-	GetPosts() {
-		return Axios
-			.get(`${FIREBASE_URL}/blogposts.json`)
-			.then((result) => {
-				return result.data;
-			});
-	},
 	GetPost(postID) {
 		return Axios
 			.get(`${FIREBASE_URL}/blogposts/${postID}.json`)

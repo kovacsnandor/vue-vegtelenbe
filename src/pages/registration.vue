@@ -81,6 +81,7 @@
 </template>
 
 <script>
+import { TYPES } from '../store';
 
 export default {
   name: "registration",
@@ -97,16 +98,16 @@ export default {
       if (this.password != this.password2) {
         this.alerts.push("A két jelszó egyezik");
       }
-      this.$store.dispatch("signUpAction",{
+      this.$store.dispatch(TYPES.actions.signUp,{
           email: this.email,
           password: this.password,
         })
-        .then((r) => {
+        .then(r => {
           //Ezzel lehet kódból betölteni egy modult (mint a routerrel a címsorban)
           //meghívjuk a bejelntkező profilját
           this.$router.push({ name: "profil" });
         })
-        .catch((err) => {
+        .catch(err => {
           this.alerts.push(err);
         });
     },

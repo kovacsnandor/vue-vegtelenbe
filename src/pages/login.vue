@@ -61,7 +61,7 @@
 </template>
 
 <script>
-
+import { TYPES } from '../store';
 export default {
   name: "login",
   data() {
@@ -70,14 +70,10 @@ export default {
       password: "",
     };
   },
-//   mounted() {
-//       console.log(store);
-//       debugger;
-//   },
   methods: {
     login() {
-      this.$store.dispatch(
-        "signInAction", {
+      this.$store
+        .dispatch(TYPES.actions.signIn, {
           email: this.email,
           password: this.password,
         })
@@ -86,7 +82,7 @@ export default {
           //(mint a roterrel a címsorban)
           this.$router.push({ name: "profil" });
         });
-    },
-  },
+    }
+  }
 };
 </script>

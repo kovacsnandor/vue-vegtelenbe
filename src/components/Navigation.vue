@@ -15,7 +15,12 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ml-auto">
         <li class="nav-item px-3" v-for="item in itemCollection" :key="item.id">
-          <router-link class="nav-link" :to="{name: item.id}" >{{item.name}}</router-link>
+          <router-link class="nav-link" 
+            :to="{name: item.id}" 
+            data-toggle="collapse" 
+            data-target="#navbarNav" >
+            {{item.name}}
+          </router-link>
         </li>
       </ul>
     </div>
